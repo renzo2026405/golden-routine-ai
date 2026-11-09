@@ -1,97 +1,321 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b12">
 <title>GOLDEN ROUTINE AI</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090b12;color:#f5f2e9;font-family:Arial,sans-serif}
-header{padding:25px;background:#111521;border-bottom:1px solid #b89542}
-h1{color:#d6b45b;font-size:25px}
-small{color:#9da5b5}
-nav{display:flex;gap:9px;overflow:auto;padding:15px}
-nav button{background:#171e2b;color:white;border:1px solid #343e50;padding:12px;border-radius:9px;white-space:nowrap}
-main{padding:16px;max-width:850px;margin:auto}
-.card{background:#141a26;padding:18px;border:1px solid #30394a;border-radius:14px;margin-bottom:15px}
+header{padding:22px;background:#111521;border-bottom:1px solid #c5a34e;display:flex;justify-content:space-between;align-items:center}
+h1{color:#d6b45b;font-size:22px;margin:0}
 h2{color:#d6b45b}
-input,select{width:100%;padding:13px;margin:7px 0;background:#090e18;color:white;border:1px solid #414b60;border-radius:8px}
-.action{background:#c5a34e;color:#101010;border:0;padding:12px;border-radius:8px;font-weight:bold;width:100%}
-.item{padding:12px;border-bottom:1px solid #30394a}
-.blue{color:#82baff}
+small,.muted{color:#a8b1c1}
+main{max-width:900px;margin:auto;padding:18px}
+.card{background:#141a26;padding:20px;border:1px solid #30394a;border-radius:14px;margin-bottom:16px}
+input,select{width:100%;padding:13px;margin:8px 0;background:#090e18;color:white;border:1px solid #414b60;border-radius:8px}
+button{cursor:pointer;border:0;padding:12px;border-radius:8px;font-weight:bold}
+.gold{background:#c5a34e;color:#111;width:100%}
+.dark{background:#202a3a;color:white}
+nav{display:flex;gap:8px;overflow-x:auto;padding:14px 0}
+nav button{white-space:nowrap}
+.hidden{display:none!important}
+.task{padding:12px;margin-top:9px;background:#202a3a;border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.task button{background:#c5a34e;color:#111}
+#message{color:#e5c56d;padding:8px}
 </style>
 </head>
 <body>
+
 <header>
-<h1>✦ GOLDEN ROUTINE AI</h1>
-<small>Build your day. Improve your life.</small>
+ <div>
+  <h1>✦ GOLDEN ROUTINE AI</h1>
+  <small>Build your day. Improve your life.</small>
+ </div>
+ <button id="logoutBtn" class="dark hidden" onclick="logout()">Logout</button>
 </header>
-<nav>
-<button onclick="show('home')">Home</button>
-<button onclick="show('planner')">Planner</button>
-<button onclick="show('fitness')">Fitness</button>
-<button onclick="show('worship')">Worship</button>
-<button onclick="show('goals')">Goals</button>
-<button onclick="show('books')">Books</button>
-</nav>
+
 <main>
-<section id="home">
-<div class="card">
-<h2>Welcome to your routine</h2>
-<p>Organize your day and build better habits.</p>
-<p class="blue">Your future starts with today's actions.</p>
-</div>
-<div class="card">
-<h2>Daily Progress</h2>
-<p id="progress">0 tasks completed</p>
-</div>
+
+<section id="auth">
+ <div class="card" id="loginBox">
+  <h2>Welcome Back</h2>
+  <p class="muted">Login to your personal routine.</p>
+  <input id="loginEmail" type="email" placeholder="Email address">
+  <input id="loginPassword" type="password" placeholder="Password">
+  <button class="gold" onclick="login()">LOGIN</button>
+  <p class="muted">Don't have an account?</p>
+  <button class="dark" onclick="showAuth('register')">CREATE ACCOUNT</button>
+ </div>
+
+ <div class="card hidden" id="registerBox">
+  <h2>Create Account</h2>
+  <input id="regName" placeholder="Full name">
+  <input id="regEmail" type="email" placeholder="Email address">
+  <input id="regPassword" type="password" placeholder="Password (minimum 8 characters)">
+  <button class="gold" onclick="register()">SIGN UP</button>
+  <button class="dark" onclick="showAuth('login')">BACK TO LOGIN</button>
+ </div>
+ <p id="message"></p>
 </section>
-<section id="planner" hidden>
-<div class="card">
-<h2>Daily Planner</h2>
-<input id="task" placeholder="Enter your task">
-<select id="category">
-<option>Work</option><option>Study</option>
-<option>Exercise</option><option>Personal</option>
-</select>
-<button class="action" onclick="addTask()">Add Task</button>
-<div id="tasks"></div>
-</div>
-</section>
-<section id="fitness" hidden>
-<div class="card"><h2>Fitness</h2>
-<p>Plan your daily movement and exercise.</p></div>
-</section>
-<section id="worship" hidden>
-<div class="card"><h2>Worship & Quran</h2>
-<p>Organize your worship and Quran reading.</p></div>
-</section>
-<section id="goals" hidden>
-<div class="card"><h2>My Goals</h2>
-<input placeholder="Write your goal">
-</div>
-</section>
-<section id="books" hidden>
-<div class="card"><h2>Reading</h2>
-<p>Track your books and daily reading.</p></div>
+
+<section id="app" class="hidden">
+ <nav>
+  <button class="dark" onclick="page('home')">Home</button>
+  <button class="dark" onclick="page('planner')">Planner</button>
+  <button class="dark" onclick="page('fitness')">Fitness</button>
+  <button class="dark" onclick="page('worship')">Worship</button>
+  <button class="dark" onclick="page('goals')">Goals</button>
+  <button class="dark" onclick="page('books')">Books</button>
+  <button id="adminTab" class="dark hidden" onclick="page('admin')">Admin</button>
+ </nav>
+
+ <section id="home" class="page">
+  <div class="card">
+   <h2>Welcome, <span id="userName"></span> ✦</h2>
+   <p class="muted">Your future starts with today's actions.</p>
+  </div>
+  <div class="card">
+   <h2>Daily Progress</h2>
+   <h1 id="progress">0 / 0</h1>
+   <p class="muted">Completed tasks</p>
+  </div>
+ </section>
+
+ <section id="planner" class="page hidden">
+  <div class="card">
+   <h2>Daily Planner</h2>
+   <input id="taskTitle" placeholder="Enter your task">
+   <select id="taskCategory">
+    <option>Study</option><option>Work</option>
+    <option>Exercise</option><option>Worship</option>
+    <option>Quran</option><option>Reading</option>
+    <option>Personal</option>
+   </select>
+   <input id="taskDate" type="date">
+   <button class="gold" onclick="addTask()">ADD TASK</button>
+   <h2>Your Tasks</h2>
+   <div id="taskList"></div>
+  </div>
+ </section>
+
+ <section id="fitness" class="page hidden">
+  <div class="card"><h2>Fitness</h2>
+   <p>Organize your daily exercise and movement.</p>
+  </div>
+ </section>
+
+ <section id="worship" class="page hidden">
+  <div class="card"><h2>Worship & Quran</h2>
+   <p>Plan your Quran reading, prayers and adhkaar.</p>
+  </div>
+ </section>
+
+ <section id="goals" class="page hidden">
+  <div class="card"><h2>My Goals</h2>
+   <input id="goalInput" placeholder="Write your goal">
+   <button class="gold" onclick="saveGoal()">SAVE GOAL</button>
+   <div id="goalList"></div>
+  </div>
+ </section>
+
+ <section id="books" class="page hidden">
+  <div class="card"><h2>Reading Library</h2>
+   <input id="bookInput" placeholder="Book title">
+   <button class="gold" onclick="saveBook()">ADD BOOK</button>
+   <div id="bookList"></div>
+  </div>
+ </section>
+
+ <section id="admin" class="page hidden">
+  <div class="card"><h2>Admin Dashboard</h2>
+   <button class="gold" onclick="loadAdmin()">REFRESH USERS</button>
+   <div id="adminUsers"></div>
+  </div>
+ </section>
 </section>
 </main>
+
 <script>
-function show(id){
-document.querySelectorAll('main section').forEach(s=>s.hidden=true);
-document.getElementById(id).hidden=false;
+const API = "";
+let token = localStorage.getItem("golden_token");
+let userRole = "user";
+let tasks = [];
+
+function msg(text){
+ document.getElementById("message").textContent=text;
 }
-function addTask(){
-let field=document.getElementById('task');
-if(!field.value.trim())return;
-let item=document.createElement('div');
-item.className='item';
-item.textContent='□ '+field.value+' — '+document.getElementById('category').value;
-document.getElementById('tasks').appendChild(item);
-field.value='';
-let count=document.querySelectorAll('#tasks .item').length;
-document.getElementById('progress').textContent=count+' tasks added';
+
+function showAuth(which){
+ document.getElementById("loginBox").classList.toggle("hidden",which!=="login");
+ document.getElementById("registerBox").classList.toggle("hidden",which!=="register");
+ msg("");
 }
+
+async function api(path,method="GET",data=null){
+ const headers={"Content-Type":"application/json"};
+ if(token)headers.Authorization="Bearer "+token;
+ const options={method,headers};
+ if(data)options.body=JSON.stringify(data);
+ const response=await fetch(API+path,options);
+ const result=await response.json().catch(()=>({detail:"Server response error"}));
+ if(!response.ok)throw new Error(result.detail||"Request failed");
+ return result;
+}
+
+async function register(){
+ try{
+  const data={
+   name:document.getElementById("regName").value.trim(),
+   email:document.getElementById("regEmail").value.trim(),
+   password:document.getElementById("regPassword").value
+  };
+  if(!data.name||!data.email||!data.password)throw Error("Fill in all fields");
+  const result=await api("/register","POST",data);
+  token=result.token;
+  localStorage.setItem("golden_token",token);
+  await startApp();
+ }catch(e){msg(e.message);}
+}
+
+async function login(){
+ try{
+  const result=await api("/login","POST",{
+   email:document.getElementById("loginEmail").value.trim(),
+   password:document.getElementById("loginPassword").value
+  });
+  token=result.token;
+  localStorage.setItem("golden_token",token);
+  await startApp();
+ }catch(e){msg(e.message);}
+}
+
+async function startApp(){
+ try{
+  const user=await api("/me");
+  userRole=user.role;
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("logoutBtn").classList.remove("hidden");
+  document.getElementById("userName").textContent=user.name;
+  document.getElementById("adminTab").classList.toggle("hidden",user.role!=="admin");
+  page("home");
+  await loadTasks();
+ }catch(e){
+  localStorage.removeItem("golden_token");
+  token=null;
+  document.getElementById("auth").classList.remove("hidden");
+  document.getElementById("app").classList.add("hidden");
+  msg("Please login again.");
+ }
+}
+
+function logout(){
+ localStorage.removeItem("golden_token");
+ token=null;
+ document.getElementById("app").classList.add("hidden");
+ document.getElementById("auth").classList.remove("hidden");
+ document.getElementById("logoutBtn").classList.add("hidden");
+ showAuth("login");
+}
+
+function page(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ if(id==="planner")loadTasks();
+ if(id==="admin")loadAdmin();
+}
+
+async function addTask(){
+ const title=document.getElementById("taskTitle").value.trim();
+ const category=document.getElementById("taskCategory").value;
+ const date=document.getElementById("taskDate").value;
+ if(!title||!date){alert("Enter a task and date");return;}
+ try{
+  await api("/tasks","POST",{title,category,task_date:date});
+  document.getElementById("taskTitle").value="";
+  await loadTasks();
+ }catch(e){alert(e.message);}
+}
+
+async function loadTasks(){
+ try{
+  tasks=await api("/tasks");
+  const list=document.getElementById("taskList");
+  list.innerHTML="";
+  tasks.forEach(t=>{
+   const item=document.createElement("div");
+   item.className="task";
+   const label=document.createElement("span");
+   label.textContent=(t.completed?"✓ ":"□ ")+t.title+" · "+t.category+" · "+t.date;
+   item.appendChild(label);
+   if(!t.completed){
+    const button=document.createElement("button");
+    button.textContent="Done";
+    button.onclick=()=>completeTask(t.id);
+    item.appendChild(button);
+   }
+   list.appendChild(item);
+  });
+  const completed=tasks.filter(t=>t.completed).length;
+  document.getElementById("progress").textContent=completed+" / "+tasks.length;
+ }catch(e){console.error(e);}
+}
+
+async function completeTask(id){
+ try{
+  await api("/tasks/"+id+"/complete","PATCH");
+  await loadTasks();
+ }catch(e){alert(e.message);}
+}
+
+function saveGoal(){
+ const input=document.getElementById("goalInput");
+ if(!input.value.trim())return;
+ const item=document.createElement("p");
+ item.textContent="✦ "+input.value;
+ document.getElementById("goalList").appendChild(item);
+ input.value="";
+}
+
+function saveBook(){
+ const input=document.getElementById("bookInput");
+ if(!input.value.trim())return;
+ const item=document.createElement("p");
+ item.textContent="📖 "+input.value;
+ document.getElementById("bookList").appendChild(item);
+ input.value="";
+}
+
+async function loadAdmin(){
+ if(userRole!=="admin")return;
+ try{
+  const users=await api("/admin/users");
+  const list=document.getElementById("adminUsers");
+  list.innerHTML="";
+  users.forEach(u=>{
+   const row=document.createElement("div");
+   row.className="task";
+   const label=document.createElement("span");
+   label.textContent=u.name+" · "+u.email+" · "+(u.blocked?"Blocked":"Active");
+   row.appendChild(label);
+   if(u.role!=="admin"){
+    const button=document.createElement("button");
+    button.textContent=u.blocked?"Unblock":"Block";
+    button.onclick=async()=>{
+     await api("/admin/users/"+u.id+"/"+(u.blocked?"unblock":"block"),"PATCH");
+     loadAdmin();
+    };
+    row.appendChild(button);
+   }
+   list.appendChild(row);
+  });
+ }catch(e){alert(e.message);}
+}
+
+if(token)startApp();
 </script>
 </body>
 </html>
