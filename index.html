@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOLDEN ROUTINE AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090b12;color:#f5f2e9;font-family:Arial,sans-serif}
+header{padding:25px;background:#111521;border-bottom:1px solid #b89542}
+h1{color:#d6b45b;font-size:25px}
+small{color:#9da5b5}
+nav{display:flex;gap:9px;overflow:auto;padding:15px}
+nav button{background:#171e2b;color:white;border:1px solid #343e50;padding:12px;border-radius:9px;white-space:nowrap}
+main{padding:16px;max-width:850px;margin:auto}
+.card{background:#141a26;padding:18px;border:1px solid #30394a;border-radius:14px;margin-bottom:15px}
+h2{color:#d6b45b}
+input,select{width:100%;padding:13px;margin:7px 0;background:#090e18;color:white;border:1px solid #414b60;border-radius:8px}
+.action{background:#c5a34e;color:#101010;border:0;padding:12px;border-radius:8px;font-weight:bold;width:100%}
+.item{padding:12px;border-bottom:1px solid #30394a}
+.blue{color:#82baff}
+</style>
+</head>
+<body>
+<header>
+<h1>✦ GOLDEN ROUTINE AI</h1>
+<small>Build your day. Improve your life.</small>
+</header>
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('planner')">Planner</button>
+<button onclick="show('fitness')">Fitness</button>
+<button onclick="show('worship')">Worship</button>
+<button onclick="show('goals')">Goals</button>
+<button onclick="show('books')">Books</button>
+</nav>
+<main>
+<section id="home">
+<div class="card">
+<h2>Welcome to your routine</h2>
+<p>Organize your day and build better habits.</p>
+<p class="blue">Your future starts with today's actions.</p>
+</div>
+<div class="card">
+<h2>Daily Progress</h2>
+<p id="progress">0 tasks completed</p>
+</div>
+</section>
+<section id="planner" hidden>
+<div class="card">
+<h2>Daily Planner</h2>
+<input id="task" placeholder="Enter your task">
+<select id="category">
+<option>Work</option><option>Study</option>
+<option>Exercise</option><option>Personal</option>
+</select>
+<button class="action" onclick="addTask()">Add Task</button>
+<div id="tasks"></div>
+</div>
+</section>
+<section id="fitness" hidden>
+<div class="card"><h2>Fitness</h2>
+<p>Plan your daily movement and exercise.</p></div>
+</section>
+<section id="worship" hidden>
+<div class="card"><h2>Worship & Quran</h2>
+<p>Organize your worship and Quran reading.</p></div>
+</section>
+<section id="goals" hidden>
+<div class="card"><h2>My Goals</h2>
+<input placeholder="Write your goal">
+</div>
+</section>
+<section id="books" hidden>
+<div class="card"><h2>Reading</h2>
+<p>Track your books and daily reading.</p></div>
+</section>
+</main>
+<script>
+function show(id){
+document.querySelectorAll('main section').forEach(s=>s.hidden=true);
+document.getElementById(id).hidden=false;
+}
+function addTask(){
+let field=document.getElementById('task');
+if(!field.value.trim())return;
+let item=document.createElement('div');
+item.className='item';
+item.textContent='□ '+field.value+' — '+document.getElementById('category').value;
+document.getElementById('tasks').appendChild(item);
+field.value='';
+let count=document.querySelectorAll('#tasks .item').length;
+document.getElementById('progress').textContent=count+' tasks added';
+}
+</script>
+</body>
+</html>
