@@ -131,9 +131,11 @@ class TaskData(BaseModel):
     task_date: str
 
 # BASIC ROUTES
+from fastapi.responses import FileResponse
+
 @app.get("/")
 def home():
-    return {"app": "GOLDEN ROUTINE AI", "status": "online"}
+    return FileResponse("index.html")
 
 @app.get("/health")
 def health():
