@@ -1,6 +1,0 @@
-fastapi
-uvicorn[standard]
-sqlalchemy
-psycopg[binary]
-python-jose[cryptography]
-email-validator
